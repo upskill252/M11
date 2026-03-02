@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Gestor de Tickets</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="https://icons.veryicon.com/png/o/miscellaneous/streamline/database-39.png">
+  <style>
+    .auth-card { max-width: 450px; margin: 4rem auto; }
+    #strengthText { margin-top: 0.5rem; font-weight: bold; min-height: 1.2em; font-size: 0.85em; }
+    .toggle-text { text-align: center; margin-top: 1rem; cursor: pointer; color: var(--color-primary); text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar">
+      <div class="nav-inner">
+        <a class="brand" href="login.html">
+          <img src="assets/logo.svg" alt="Logo" class="logo">
+          <span class="brand-text">Gestor de Tickets</span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="container">
+    <article class="card auth-card">
+      <header class="card-head">
+        <h2 id="authTitle">Iniciar Sessão</h2>
+        <p class="muted" id="authSubtitle">Insira as suas credenciais para aceder aos tickets.</p>
+      </header>
+
+      <form id="authForm" class="form">
+        <div class="form-row">
+          <label class="label" for="username">Utilizador</label>
+          <input class="input" id="username" type="text" required placeholder="ex: admin" />
+        </div>
+
+        <div class="form-row">
+          <label class="label" for="password">Password</label>
+          <input class="input" id="password" type="password" required placeholder="••••••••" />
+          <p id="strengthText"></p>
+        </div>
+
+        <div class="form-actions">
+          <button id="authBtn" class="btn" type="submit">Entrar</button>
+        </div>
+      </form>
+      
+      <p class="toggle-text" id="toggleAuth">Não tem conta? Registe-se aqui.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© Gestor de Tickets — M10 Lab</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  
+  <script>
+    const authForm = document.getElementById('authForm');
+    const authBtn = document.getElementById('authBtn');
+    const passwordInput = document.getElementById('password');
+    const strengthText = document.getElementById('strengthText');
+    const toggleAuth = document.getElementById('toggleAuth');
+    const authTitle = document.getElementById('authTitle');
+
+    let isLoginMode = true;
+
+    // Task 1.2.1: Regex
+    const strongRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
+
+    passwordInput.addEventListener('input', () => {
+      if (isLoginMode) {
+          strengthText.innerText = "";
+          return;
+      }
+
+      const val = passwordInput.value;
+      if (strongRegex.test(val)) {
+        strengthText.innerText = "Força: Forte ✅";
+        strengthText.style.color = "#28a745";
+        authBtn.disabled = false;
+      } else {
+        strengthText.innerText = "Fraca: Mín. 8 caracteres, 1 número e 1 símbolo (!@#$%).";
+        strengthText.style.color = "#dc3545";
+        authBtn.disabled = true;
+      }
+    });
+
+    toggleAuth.addEventListener('click', () => {
+      isLoginMode = !isLoginMode;
+      authTitle.innerText = isLoginMode ? "Iniciar Sessão" : "Criar Conta";
+      authBtn.innerText = isLoginMode ? "Entrar" : "Registar";
+      toggleAuth.innerText = isLoginMode ? "Não tem conta? Registe-se aqui." : "Já tem conta? Entre aqui.";
+      strengthText.innerText = "";
+      authBtn.disabled = false;
+      authForm.reset();
+    });
+
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // FIX: Use API_CONFIG instead of hardcoded localhost
+      const baseUrl = window.API_CONFIG ? window.API_CONFIG.getBase() : "http://localhost:3000";
+      const username = document.getElementById('username').value;
+      const password = passwordInput.value;
+      const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+
+      try {
+        const response = await fetch(`${baseUrl}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          if (isLoginMode) {
+            localStorage.setItem('token', data.token);
+            window.location.href = 'index.html';
+          } else {
+            alert("Registo com sucesso! Agora pode iniciar sessão.");
+            toggleAuth.click(); // Switch back to login mode automatically
+          }
+        } else {
+          // Task 1.2.2: IP Blocked (429) will show here
+          alert(data.error || data.message || "Falha na autenticação.");
+        }
+      } catch (err) {
+        alert("Erro: Não foi possível contactar o servidor.");
+      }
+    });
+  </script>
+</body>
+</html>

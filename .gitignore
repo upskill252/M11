@@ -1,0 +1,11 @@
+node_modules
+.env
+.env.*
+dist
+build
+.DS_Store
+*.csv
+.
+npm-debug.log*
+.vscode
+*:Zone.Identifier

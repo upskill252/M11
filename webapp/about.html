@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Esta página contém as informações sobre o grupo e sobre o projeto">
+  <title>Sobre o projeto</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="https://icons.veryicon.com/png/o/miscellaneous/streamline/database-39.png">
+  <script>
+  if (!localStorage.getItem('token')) {
+    window.location.href = 'login.html';
+  }
+</script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Saltar para conteúdo</a>
+
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navegação principal">
+      <div class="nav-inner">
+        <!-- BRAND: logo + texto (lado esquerdo) -->
+        <a class="brand" href="index.html" aria-label="Ir para a página principal">
+          <img src="assets/logo.svg" alt="Logotipo DMVP" class="logo">
+          <span class="brand-text">Gestor de Tickets</span>
+        </a>
+
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+          <span class="sr-only">Abrir menu</span>
+          <span class="hamburger" aria-hidden="true"></span>
+        </button>
+
+        <ul id="nav-links" class="nav-links">
+          <li><a class="" href="index.html">Tickets</a></li>
+          <li><a class="" href="stats.html">Estatísticas</a></li>
+          <li><a class="active" href="about.html">Sobre</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" class="container">
+
+    <section class="page-head">
+      <div>
+        <h1>Sobre o projeto</h1>
+        <p class="lead">Projeto final do Módulo 10 (UPskill) baseado na API do Módulo 8.</p>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <article class="card">
+        <header class="card-head">
+          <h2>Grupo</h2>
+        </header>
+
+        <ul class="bullet-list">
+          <li><strong>Diana Santos</strong> Nº 247</li>
+          <li><strong>Miguel Hilário</strong> Nº 252</li>
+          <li><strong>Vasco Valério</strong> Nº 253</li>
+          <li><strong>Pablo Mendes</strong> Nº 251</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <header class="card-head">
+          <h2>Tecnologias</h2>
+        </header>
+
+        <ul class="bullet-list">
+          <li>HTML5 (estrutura semântica: header, main, section, article, footer)</li>
+          <li>CSS3 (layout responsivo + tipografia + espaçamento consistente)</li>
+          <li>JavaScript (fetch + async/await + DOM + validações)</li>
+          <li>API REST do M8 (Express + SQLite)</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <header class="card-head">
+          <h2>Dificuldades e aprendizagens</h2>
+        </header>
+
+        <ol class="bullet-list">
+          <li>Garantir consistência visual entre páginas e componentes.</li>
+          <li>Elaborar a estrutura do projeto</li>
+          <li>Elaboração do código e compreensão do mesmo.</li>
+          <li>Tratar erros e estados de carregamento de forma clara.</li>
+          <li>Tempo para elaboração do projeto.</li>
+          <li>Formatar os campos do CSV para reduzir número de tickets</li>
+          <li>Implementar CRUD completo (GET/POST/PUT/DELETE) sem bibliotecas externas.</li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <header class="card-head">
+          <h2>Checklist rápido</h2>
+        </header>
+
+        <ul class="check-list">
+          <li>Navbar e Footer em todas as páginas</li>
+          <li>Listas (ul/ol) usadas neste ficheiro</li>
+          <li>Cards responsivos (tickets e estatísticas)</li>
+          <li>CRUD completo na página principal</li>
+          <li>Stats com múltiplas chamadas GET</li>
+        </ul>
+      </article>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Gestor de Tickets — M10 (HTML/CSS/JS)</p>
+      <p class="muted">API do M8: <span id="apiBasePreview" class="mono"></span></p>
+    </div>
+  </footer>
+
+  <div id="toastHost" class="toast-host" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/about.js"></script>
+</body>
+
+</html>
