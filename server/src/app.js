@@ -51,10 +51,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.get('/', (req, res) => res.json({ name:'Ticket Manager API', version:'2.0.0', endpoints:{ health:'/health', tickets:'/api/tickets', stats:'/api/stats', documentation:'/api-docs' } }));
 
 app.use('/health', healthRoutes);
-app.use('/api/tickets', ticketRoutes);
+app.use('/api/tickets', authenticate, ticketRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/tickets', authenticate, ticketRoutes); // Protected!
 
 // 404 & error handler
 app.use((req,res)=>res.status(404).json({ error:'Not Found', message:`Route ${req.method} ${req.path} not found` }));
